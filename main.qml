@@ -3,6 +3,8 @@ import QtQuick.Window 2.3
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
+import com.kadbyte.signup 1.0
+
 Window {
     id: window
     visible: true
@@ -10,7 +12,6 @@ Window {
     height: 768
     title: qsTr("KadByte")
     color: "#314C31"
-    visibility: "Maximized"
 
     Rectangle {
         id: startSection
@@ -62,9 +63,9 @@ Window {
                 }
                 topPadding: 15
                 bottomPadding: 15
-                onClicked:  () => {
-                    text = signUpStack.currentIndex == 0 ? qsTr("Sign Up"): qsTr("Sign In")
-                    signUpStack.currentIndex = signUpStack.currentIndex == 0 ? 1: 0
+                onClicked: {
+                    text = signUpStack.currentIndex == 0 ? qsTr("Sign Up") : qsTr("Sign In")
+                    signUpStack.currentIndex = signUpStack.currentIndex == 0 ? 1 : 0
                 }
             }
         }
@@ -80,7 +81,13 @@ Window {
                 id: signInSection
                 color: "#F8F8F8"
 
-                ColumnLayout{
+                SignUp {
+                    id: signup
+                    onUserNameError: console.log(error)
+                    onPasswordError: console.log(error)
+                }
+
+                ColumnLayout {
 
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
@@ -100,7 +107,7 @@ Window {
                         font.pointSize: 12
                         Layout.fillWidth: true
                         padding: 15
-                        background: Rectangle{
+                        background: Rectangle {
                             border.color: "#2ECC71"
                             border.width: 2
                             radius: 5
@@ -115,7 +122,13 @@ Window {
                         Layout.topMargin: 20
                         padding: 15
                         echoMode: "Password"
-                        background: Rectangle{
+                        onAccepted: {
+                            console.log("Enter pressed");
+                            signup.username = userNameInput.text
+                            signup.password = passwordInput.text
+                            signup.signup()
+                        }
+                        background: Rectangle {
                             border.color: "#2ECC71"
                             border.width: 2
                             radius: 5
@@ -124,6 +137,7 @@ Window {
 
                     CheckBox {
                         text: qsTr("Remember me")
+                        onToggled: signup.isRemeberEnabled = checked
                     }
 
                     Button {
@@ -142,12 +156,13 @@ Window {
                             verticalAlignment: Text.AlignVCenter
                             color: "white"
                         }
-                        onClicked: () => {
-                                       console.log("Log in clicked")
-                                   }
+                        onClicked: {
+                            signup.username = userNameInput.text
+                            signup.password = passwordInput.text
+                            signup.signup()
+                        }
                     }
                 }
-
             }
 
             Rectangle {

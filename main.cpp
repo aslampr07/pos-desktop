@@ -1,11 +1,17 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "signup.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setOrganizationName("Kadbyte");
+    QCoreApplication::setOrganizationDomain("kadbyte.com");
+    QCoreApplication::setApplicationName("pos");
 
     QGuiApplication app(argc, argv);
+
+    qmlRegisterType<SignUp>("com.kadbyte.signup", 1, 0, "SignUp");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
