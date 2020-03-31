@@ -19,6 +19,7 @@ public slots:
 signals:
     void userNameError(QString error);
     void passwordError(QString error);
+    void success();
 
 private:
     QString m_username;

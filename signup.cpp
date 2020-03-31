@@ -45,6 +45,8 @@ void SignUp::signup(){
 }
 
 void SignUp::replyFinished(QNetworkReply *reply){
+    int x = reply->error();
+    qDebug()<<"error code"<< x;
     QVariant status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     int code = status.toInt();
     if(code == 200){
@@ -55,11 +57,11 @@ void SignUp::replyFinished(QNetworkReply *reply){
         if(m_IsRememberOn){
             QSettings settings;
             settings.setValue("token", token);
-            //settings.sync();
         }
         else{
 
         }
+        emit success();
     }
     else {
         qDebug()<<"Error occured"<<code;
