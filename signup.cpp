@@ -11,8 +11,7 @@
 
 SignUp::SignUp(QObject *parent) : QObject(parent)
 {
-    QSettings setting;
-    qDebug()<<setting.fileName();
+
 }
 
 void SignUp::signup(){

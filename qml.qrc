@@ -2,5 +2,15 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>bg.png</file>
+        <file>MainPage.qml</file>
+        <file>NavButton.qml</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file>img/items.png</file>
+        <file>img/stats.png</file>
+        <file>img/home.png</file>
+        <file>img/seach.png</file>
+        <file>img/add.png</file>
+        <file>img/back.png</file>
     </qresource>
 </RCC>

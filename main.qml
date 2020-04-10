@@ -187,8 +187,8 @@ Window {
             }
         }
 
-        Rectangle {
-            color: "grey"
+        MainPage{
+
         }
     }
 }
