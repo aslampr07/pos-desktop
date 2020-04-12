@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import com.kadbyte.item 1.0
 
 Rectangle {
     Rectangle {
@@ -71,6 +72,27 @@ Rectangle {
             id: itemsPage
             color: "#F2F8FF"
 
+            Item {
+                id: item
+                onSuccess: {
+                    itemNameInput.text = "";
+                    itemAliasInput.text = "";
+                    itemPriceInput.text = "";
+                    if(!isSaveNew){
+                        newItemLayout.close();
+                    }
+                }
+                onNameInputError: {
+                    itemNameInput.error = error
+                }
+                onAliasInputError: {
+                    itemAliasInput.error = error
+                }
+                onPriceInputError: {
+                    itemPriceInput.error = error
+                }
+            }
+
             Drawer{
                 id: newItemLayout
                 width: 400
@@ -111,64 +133,57 @@ Rectangle {
                         }
                     }
 
-                    TextField {
+                    EditText{
                         id: itemNameInput
                         placeholderText: qsTr("Name")
-                        font.pointSize: 12
                         anchors.top: itemTitleLayout.bottom
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        anchors.topMargin: 30
+                        anchors.topMargin: 40
                         anchors.leftMargin: 20
                         anchors.rightMargin: 20
                         padding: 15
-                        background: Rectangle {
-                            border.color: "#3949AB"
-                            border.width: 2
-                            radius: 5
-                        }
+                        font.pointSize: 12
                     }
-                    TextField {
+
+                    EditText{
                         id: itemPriceInput
                         placeholderText: qsTr("Price")
                         font.pointSize: 12
                         anchors.top: itemNameInput.bottom
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        anchors.topMargin: 30
+                        anchors.topMargin: 40
                         anchors.leftMargin: 20
                         anchors.rightMargin: 20
                         padding: 15
-                        background: Rectangle {
-                            border.color: "#3949AB"
-                            border.width: 2
-                            radius: 5
+                        validator: DoubleValidator{
+                            bottom: 0
+                            top: 10000
+                            decimals: 2
                         }
                     }
-                    TextField {
+
+                    EditText{
                         id: itemAliasInput
                         placeholderText: qsTr("Alias")
                         font.pointSize: 12
                         anchors.top: itemPriceInput.bottom
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        anchors.topMargin: 30
+                        anchors.topMargin: 40
                         anchors.leftMargin: 20
                         anchors.rightMargin: 20
                         padding: 15
-                        background: Rectangle {
-                            border.color: "#3949AB"
-                            border.width: 2
-                            radius: 5
-                        }
                     }
+
                     Button {
                         id: saveButton
                         text: "Save"
                         anchors.right: itemAliasInput.horizontalCenter
                         anchors.left: itemAliasInput.left
                         anchors.top: itemAliasInput.bottom
-                        anchors.topMargin: 30
+                        anchors.topMargin: 40
                         anchors.rightMargin: 10
                         topPadding: 12
                         bottomPadding: 12
@@ -182,6 +197,12 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             color: "white"
                         }
+                        onClicked: {
+                            itemNameInput.error = ""
+                            itemAliasInput.error = ""
+                            itemPriceInput.error = ""
+                            item.createItem(itemNameInput.text, itemAliasInput.text, itemPriceInput.text, false)
+                        }
                     }
                     Button {
                         id: saveNewButton
@@ -189,7 +210,7 @@ Rectangle {
                         anchors.right: itemAliasInput.right
                         anchors.left: itemAliasInput.horizontalCenter
                         anchors.top: itemAliasInput.bottom
-                        anchors.topMargin: 30
+                        anchors.topMargin: 40
                         anchors.leftMargin: 10
                         topPadding: 12
                         bottomPadding: 12
@@ -203,6 +224,12 @@ Rectangle {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                             color: "#3949AB"
+                        }
+                        onClicked: {
+                            itemNameInput.error = ""
+                            itemAliasInput.error = ""
+                            itemPriceInput.error = ""
+                            item.createItem(itemNameInput.text, itemAliasInput.text, itemPriceInput.text, true)
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "signup.h"
+#include "item.h"
 #include "pagenavigation.h"
 
 int main(int argc, char *argv[])
@@ -13,6 +14,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<SignUp>("com.kadbyte.signup", 1, 0, "SignUp");
+    qmlRegisterType<Item>("com.kadbyte.item", 1, 0, "Item");
     qmlRegisterSingletonType<PageNavigation>("com.kadbyte.navigation", 1, 0, "Navigation", &PageNavigation::instance);
 
     QQmlApplicationEngine engine;

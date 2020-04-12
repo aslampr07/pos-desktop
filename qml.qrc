@@ -4,6 +4,7 @@
         <file>bg.png</file>
         <file>MainPage.qml</file>
         <file>NavButton.qml</file>
+        <file>EditText.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>img/items.png</file>
