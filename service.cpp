@@ -31,6 +31,13 @@ void Service::addItem(QString name, QString alias, float price, QString color){
     manager->post(request, QJsonDocument(body).toJson());
 }
 
+void Service::getItem(){
+    QNetworkRequest request(QUrl(domain + "/api/item/"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", "Bearer " + getBearerToken().toUtf8());
+    manager->get(request);
+}
+
 
 void Service::replyComplete(QNetworkReply *reply){
     QVariant status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);

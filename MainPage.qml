@@ -1,6 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.14
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+
 import com.kadbyte.item 1.0
 
 Rectangle {
@@ -12,16 +13,15 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
 
-        ButtonGroup{
+        ButtonGroup {
             buttons: buttonColumn.children
             onClicked: {
                 //For setting up the acive button, and disable inactive button.
-                for(let i = 0; i < buttonColumn.children.length; i++){
-                    if(button === buttonColumn.children[i]){
+                for (var i = 0; i < buttonColumn.children.length; i++) {
+                    if (button === buttonColumn.children[i]) {
                         button.isActive = true
                         workSpace.currentIndex = i + 1
-                    }
-                    else{
+                    } else {
                         buttonColumn.children[i].isActive = false
                     }
                 }
@@ -31,55 +31,53 @@ Rectangle {
         ColumnLayout {
             id: buttonColumn
             spacing: 0
-            NavButton{
+            NavButton {
                 id: homeButton
                 source: "/img/img/home.png"
             }
-            NavButton{
+            NavButton {
                 id: statButton
                 source: "/img/img/stats.png"
             }
-            NavButton{
+            NavButton {
                 id: itemButton
                 source: "/img/img/items.png"
             }
         }
-
     }
 
-    StackLayout{
+    StackLayout {
         id: workSpace
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.left: navigationBar.right
 
-        /*To be removed*/
-        currentIndex: 3
-
-        Rectangle{
+        Rectangle {
             color: "white"
-
         }
-        Rectangle{
+        Rectangle {
             color: "green"
-
         }
-        Rectangle{
+        Rectangle {
             color: "cyan"
         }
-        Rectangle{
+        Rectangle {
             id: itemsPage
             color: "#F2F8FF"
+            Component.onCompleted: {
+                item.loadItemList()
+            }
 
             Item {
                 id: item
-                onSuccess: {
-                    itemNameInput.text = "";
-                    itemAliasInput.text = "";
-                    itemPriceInput.text = "";
-                    if(!isSaveNew){
-                        newItemLayout.close();
+                onItemInsertSuccess: {
+                    itemNameInput.text = ""
+                    itemAliasInput.text = ""
+                    itemPriceInput.text = ""
+                    item.loadItemList()
+                    if (!isSaveNew) {
+                        newItemLayout.close()
                     }
                 }
                 onNameInputError: {
@@ -91,9 +89,12 @@ Rectangle {
                 onPriceInputError: {
                     itemPriceInput.error = error
                 }
+                onItemListFetched: {
+                    itemList.model = product
+                }
             }
 
-            Drawer{
+            Drawer {
                 id: newItemLayout
                 width: 400
                 height: parent.height
@@ -110,7 +111,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.right: parent.right
 
-                        Button{
+                        Button {
                             anchors.top: addItemTitle.top
                             anchors.bottom: addItemTitle.bottom
                             anchors.left: parent.left
@@ -133,7 +134,7 @@ Rectangle {
                         }
                     }
 
-                    EditText{
+                    EditText {
                         id: itemNameInput
                         placeholderText: qsTr("Name")
                         anchors.top: itemTitleLayout.bottom
@@ -146,7 +147,7 @@ Rectangle {
                         font.pointSize: 12
                     }
 
-                    EditText{
+                    EditText {
                         id: itemPriceInput
                         placeholderText: qsTr("Price")
                         font.pointSize: 12
@@ -157,14 +158,14 @@ Rectangle {
                         anchors.leftMargin: 20
                         anchors.rightMargin: 20
                         padding: 15
-                        validator: DoubleValidator{
+                        validator: DoubleValidator {
                             bottom: 0
                             top: 10000
                             decimals: 2
                         }
                     }
 
-                    EditText{
+                    EditText {
                         id: itemAliasInput
                         placeholderText: qsTr("Alias")
                         font.pointSize: 12
@@ -201,7 +202,9 @@ Rectangle {
                             itemNameInput.error = ""
                             itemAliasInput.error = ""
                             itemPriceInput.error = ""
-                            item.createItem(itemNameInput.text, itemAliasInput.text, itemPriceInput.text, false)
+                            item.createItem(itemNameInput.text,
+                                            itemAliasInput.text,
+                                            itemPriceInput.text, false)
                         }
                     }
                     Button {
@@ -229,27 +232,28 @@ Rectangle {
                             itemNameInput.error = ""
                             itemAliasInput.error = ""
                             itemPriceInput.error = ""
-                            item.createItem(itemNameInput.text, itemAliasInput.text, itemPriceInput.text, true)
+                            item.createItem(itemNameInput.text,
+                                            itemAliasInput.text,
+                                            itemPriceInput.text, true)
                         }
                     }
                 }
-
             }
 
             TextField {
                 id: itemSearchInput
                 width: 300
-                placeholderText: qsTr("Search name, alias")
-                anchors.left: itemList.left
+                anchors.topMargin: 50
                 anchors.top: parent.top
-                anchors.topMargin: 20
+                anchors.left: itemList.left
+                placeholderText: qsTr("Search name, alias")
                 font.pointSize: 10
                 padding: 15
                 leftPadding: 40
                 background: Rectangle {
                     border.color: "#CCCCCC"
                     border.width: 1
-                    radius: 5
+                    radius: 3
                     Image {
                         id: name
                         anchors.verticalCenter: parent.verticalCenter
@@ -262,14 +266,14 @@ Rectangle {
             Button {
                 id: addItemButton
                 text: "Add Item"
-                anchors.right: itemList.right
-                anchors.top: itemSearchInput.top
-                anchors.bottom: itemSearchInput.bottom
                 leftPadding: 40
                 rightPadding: 10
+                anchors.top: itemSearchInput.top
+                anchors.bottom: itemSearchInput.bottom
+                anchors.right: itemList.right
                 background: Rectangle {
                     color: "#3949AB"
-                    radius: 5
+                    radius: 3
 
                     Image {
                         anchors.verticalCenter: parent.verticalCenter
@@ -290,31 +294,46 @@ Rectangle {
                 }
             }
 
-            Rectangle {
+            ListView {
                 id: itemList
-                color: "white"
                 width: 1000
-                height: 600
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.topMargin: 50
+                anchors.topMargin: 60
+                anchors.top: itemSearchInput.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 60
+                clip: true
+                ScrollBar.vertical : ScrollBar{
+
+                }
+                spacing: 10
+                delegate: Rectangle {
+                    width: parent.width
+                    height: 40
+                    RowLayout {
+                        width: parent.width
+
+                        Text {
+                            text: modelData.slNumber
+                        }
+                        Text {
+                            text: modelData.code
+                        }
+                        Text {
+                            text: modelData.itemName
+                            horizontalAlignment: Text.Center
+                            Layout.fillWidth: true
+                        }
+                        Text {
+                            text: modelData.price
+                            horizontalAlignment: Text.AlignRight
+                        }
+                        Text {
+                            text: modelData.createdAt
+                        }
+                    }
+                }
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

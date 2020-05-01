@@ -2,9 +2,9 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QVector>
 
 #include "item.h"
-
 
 Item::Item(QObject *parent) : QObject(parent)
 {
@@ -28,8 +28,9 @@ void Item::createItem(QString name, QString alias, float price, bool isSaveNew){
         if(isOk){
             service.addItem(name, alias, price, "ffffff");
             connect(&service, &Service::success, this, [=](int status, QJsonDocument body){
+                disconnect(&service, &Service::success, nullptr, nullptr);
                 if(status == 200){
-                    emit success(isSaveNew);
+                    emit itemInsertSuccess(isSaveNew);
                 }
                 else {
                      QJsonArray errors = body.array();
@@ -47,9 +48,41 @@ void Item::createItem(QString name, QString alias, float price, bool isSaveNew){
                 }
             });
         }
+}
 
+void Item::loadItemList(){
+    service.getItem();
+    connect(&service, &Service::success, this, [=](int status, QJsonDocument body){
+        disconnect(&service, &Service::success, nullptr, nullptr);
+        if(status == 200){
+            qDebug()<<body;
+            QJsonArray itemArray = body.array();
+            QList<Product*> productList;
+            for(int i = 0; i < itemArray.size(); i++){
+                QString name = itemArray[i].toObject()["name"].toString();
+                QString alias = itemArray[i].toObject()["alias"].toString();
+                QString code = itemArray[i].toObject()["itemCode"].toString();
+                double price = itemArray[i].toObject()["sellingPrice"].toDouble();
+                QString date = itemArray[i].toObject()["created_at"].toString();
+                productList.append(new Product(i+1, code, name, alias, price, date));
+            }
+            emit itemListFetched(productList);
+        }
+    });
 }
 
 void Item::networkError(){
     qDebug()<<"Network signal triggered";
+}
+
+
+Product::Product(QObject *parent) : QObject(parent)
+{
+
+}
+
+Product::Product(int slNumber, QString &code, QString &name, QString &alias, double &price, QString &createdAt, QObject *parent) :
+    QObject(parent), m_slNumber(slNumber), m_code(code), m_name(name), m_alias(alias), m_price(price), m_createdAt(createdAt)
+{
+
 }

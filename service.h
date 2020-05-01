@@ -23,6 +23,8 @@ public:
 
     // POST /api/item
     void addItem(QString name, QString alias, float price, QString color);
+    // GET /api/item
+    void getItem();
 
 signals:
     void success(int status, QJsonDocument body);
