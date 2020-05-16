@@ -53,12 +53,14 @@ Rectangle {
         anchors.right: parent.right
         anchors.left: navigationBar.right
 
-        Rectangle {
-            color: "white"
-        }
+        currentIndex: 1
+
         Rectangle {
             color: "green"
         }
+
+        HomePage { }
+
         Rectangle {
             color: "cyan"
         }

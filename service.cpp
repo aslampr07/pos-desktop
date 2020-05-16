@@ -9,6 +9,7 @@
 #include <QEventLoop>
 #include <QString>
 
+#include "programvariable.h"
 #include "service.h"
 
 Service::Service(QObject *parent): QObject(parent)
@@ -59,8 +60,8 @@ Service::~Service(){
 QString Service::bearerToken = "";
 QString Service::getBearerToken(){
     if(bearerToken == ""){
-        QSettings settings;
-        QString token = settings.value("token", "").toString();
+
+        QString token = ProgramVariable::refreshToken;
 
         QUrl url("http://api.kadbyte.com/api/account/exchange");
         QUrlQuery query;

@@ -14,5 +14,7 @@
         <file>img/seach.png</file>
         <file>img/add.png</file>
         <file>img/back.png</file>
+        <file>img/removeitem.png</file>
+        <file>img/additem.png</file>
     </qresource>
 </RCC>

@@ -55,7 +55,6 @@ void Item::loadItemList(){
     connect(&service, &Service::success, this, [=](int status, QJsonDocument body){
         disconnect(&service, &Service::success, nullptr, nullptr);
         if(status == 200){
-            qDebug()<<body;
             QJsonArray itemArray = body.array();
             QList<Product*> productList;
             for(int i = 0; i < itemArray.size(); i++){
@@ -63,7 +62,7 @@ void Item::loadItemList(){
                 QString alias = itemArray[i].toObject()["alias"].toString();
                 QString code = itemArray[i].toObject()["itemCode"].toString();
                 double price = itemArray[i].toObject()["sellingPrice"].toDouble();
-                QString date = itemArray[i].toObject()["created_at"].toString();
+                QString date = itemArray[i].toObject()["createdAt"].toString();
                 productList.append(new Product(i+1, code, name, alias, price, date));
             }
             emit itemListFetched(productList);

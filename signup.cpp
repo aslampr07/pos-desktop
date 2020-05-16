@@ -7,6 +7,8 @@
 #include <QTextCodec>
 #include <QJsonDocument>
 #include <QSettings>
+
+#include "programvariable.h"
 #include "signup.h"
 
 SignUp::SignUp(QObject *parent) : QObject(parent)
@@ -53,12 +55,11 @@ void SignUp::replyFinished(QNetworkReply *reply){
         QJsonDocument document = QJsonDocument::fromJson(array);
         QJsonObject body = document.object();
         QString token = body["token"].toString();
+
+        ProgramVariable::refreshToken = token;
         if(m_IsRememberOn){
             QSettings settings;
             settings.setValue("token", token);
-        }
-        else{
-
         }
         emit success();
     }

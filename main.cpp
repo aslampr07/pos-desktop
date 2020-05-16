@@ -3,6 +3,7 @@
 #include "signup.h"
 #include "item.h"
 #include "pagenavigation.h"
+#include "invoice.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<SignUp>("com.kadbyte.signup", 1, 0, "SignUp");
     qmlRegisterType<Item>("com.kadbyte.item", 1, 0, "Item");
+    qmlRegisterType<Invoice>("com.kadbyte.invoice", 1, 0, "Invoice");
     qmlRegisterSingletonType<PageNavigation>("com.kadbyte.navigation", 1, 0, "Navigation", &PageNavigation::instance);
 
     QQmlApplicationEngine engine;

@@ -1,4 +1,4 @@
-QT += quick
+QT += quick printsupport
 
 CONFIG += c++11
 
@@ -14,9 +14,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        invoice.cpp \
         item.cpp \
         main.cpp \
         pagenavigation.cpp \
+        programvariable.cpp \
         service.cpp \
         signup.cpp
 
@@ -34,7 +36,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    invoice.h \
     item.h \
     pagenavigation.h \
+    programvariable.h \
     service.h \
     signup.h
