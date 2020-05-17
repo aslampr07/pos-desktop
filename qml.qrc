@@ -16,5 +16,6 @@
         <file>img/back.png</file>
         <file>img/removeitem.png</file>
         <file>img/additem.png</file>
+        <file>img/delete.png</file>
     </qresource>
 </RCC>

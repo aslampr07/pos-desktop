@@ -39,6 +39,14 @@ void Service::getItem(){
     manager->get(request);
 }
 
+void Service::createInvoice(QJsonDocument invoices)
+{
+    QNetworkRequest request(QUrl(domain + "/api/invoice/"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", "Bearer " + getBearerToken().toUtf8());
+    manager->post(request, invoices.toJson());
+}
+
 
 void Service::replyComplete(QNetworkReply *reply){
     QVariant status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);

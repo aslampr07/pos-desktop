@@ -25,6 +25,8 @@ public:
     void addItem(QString name, QString alias, float price, QString color);
     // GET /api/item
     void getItem();
+    //POST /api/invoice
+    void createInvoice(QJsonDocument invoices);
 
 signals:
     void success(int status, QJsonDocument body);

@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include "signup.h"
 #include "item.h"
 #include "pagenavigation.h"
@@ -19,7 +20,12 @@ int main(int argc, char *argv[])
     qmlRegisterType<Invoice>("com.kadbyte.invoice", 1, 0, "Invoice");
     qmlRegisterSingletonType<PageNavigation>("com.kadbyte.navigation", 1, 0, "Navigation", &PageNavigation::instance);
 
+    InvoiceModel model;
+
+
     QQmlApplicationEngine engine;
+    QQmlContext* context = engine.rootContext();
+    context->setContextProperty("invoiceModel", &model);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

@@ -1,23 +1,28 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.2
 
 import com.kadbyte.item 1.0
 import com.kadbyte.invoice 1.0
 
 Rectangle {
 
-    FontLoader{
+    FontLoader {
         id: robotoCondensed
         source: "https://github.com/google/fonts/raw/master/ofl/roboto/static/RobotoCondensed-Regular.ttf"
     }
-    FontLoader{
+    FontLoader {
         id: robotoCondensedBold
         source: "https://github.com/google/fonts/raw/master/ofl/roboto/static/RobotoCondensed-Bold.ttf"
     }
 
-    Invoice{
+
+    Invoice {
         id: invoice
+        onInvoiceItemChange: {
+            totalAmountText.text = "₹" + total
+        }
     }
 
     Item {
@@ -88,7 +93,9 @@ Rectangle {
                 }
 
                 onClicked: {
-                    invoice.addItemToInvoice(modelData.code, modelData.itemName, modelData.price)
+                    invoice.addItemToInvoice(modelData.code,
+                                             modelData.itemName,
+                                             modelData.price)
                 }
             }
 
@@ -126,12 +133,12 @@ Rectangle {
         }
     }
 
-    BusyIndicator{
+    BusyIndicator {
         id: gridLoading
         running: true
         anchors.right: invoiceLayout.left
         anchors.left: parent.left
-        anchors.verticalCenter:  parent.verticalCenter
+        anchors.verticalCenter: parent.verticalCenter
     }
 
     Rectangle {
@@ -148,33 +155,55 @@ Rectangle {
             anchors.right: parent.right
             anchors.bottom: totalAmountText.top
 
-            model: 10
+            model: invoice.model
             clip: true
 
-
-            header: Rectangle{
+            header: Rectangle {
                 height: 40
                 width: parent.width
 
-                Text{
+                Text {
                     text: "Name"
                     color: "#888888"
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     anchors.verticalCenter: parent.verticalCenter
                 }
-                Text{
+                Text {
                     text: "Quantity"
                     color: "#888888"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
                 }
-                Text{
+                Text {
                     text: "Price"
                     color: "#888888"
                     anchors.rightMargin: 10
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            add: Transition {
+                NumberAnimation {
+                    properties: "x,y"
+                    duration: 400
+                    easing.type: Easing.OutCirc
+                }
+            }
+            remove: Transition {
+                NumberAnimation {
+                    property: "opacity"
+                    from: 1.0
+                    to: 0
+                    duration: 200
+                }
+            }
+            displaced: Transition {
+                NumberAnimation {
+                    properties: "x,y"
+                    duration: 400
+                    easing.type: Easing.OutBounce
                 }
             }
 
@@ -186,7 +215,7 @@ Rectangle {
                     anchors.right: addRemoveItemLayout.left
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.leftMargin: 10
-                    text: "Alfaham Full"
+                    text: name
                     font.pointSize: 11
                     font.family: robotoCondensed.name
                     elide: Text.ElideRight
@@ -197,13 +226,26 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
                     Image {
-                        source: "/img/img/additem.png"
+                        source: quantity == 1 ? "/img/img/delete.png" : "/img/img/removeitem.png"
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                invoice.removeItemFromInvoice(code)
+                            }
+                        }
                     }
                     Text {
-                        text: "2x"
+                        text: quantity + "x"
                     }
                     Image {
-                        source: "/img/img/removeitem.png"
+                        source: "/img/img/additem.png"
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                invoice.addItemToInvoice(code, name,
+                                                         price / quantity)
+                            }
+                        }
                     }
                 }
                 Text {
@@ -211,7 +253,7 @@ Rectangle {
                     anchors.left: addRemoveItemLayout.right
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.rightMargin: 10
-                    text: "₹250"
+                    text: "₹" + price
                     font.family: robotoCondensed.name
                     font.pointSize: 11
                     horizontalAlignment: Text.AlignRight
@@ -226,9 +268,7 @@ Rectangle {
                 }
             }
 
-            ScrollBar.vertical : ScrollBar{
-
-            }
+            ScrollBar.vertical: ScrollBar {}
         }
 
         Text {
@@ -244,7 +284,7 @@ Rectangle {
 
         Text {
             id: totalAmountText
-            text: "₹250"
+            text: "₹0"
             anchors.bottom: confirmButton.top
             anchors.right: parent.right
             anchors.rightMargin: 20
@@ -274,7 +314,7 @@ Rectangle {
                 color: "white"
             }
             onClicked: {
-                invoice.createInvoice()
+                invoice.createInvoice();
             }
         }
     }
