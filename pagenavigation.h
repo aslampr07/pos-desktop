@@ -8,18 +8,19 @@
 class PageNavigation : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int pageIndex MEMBER m_pageIndex)
 public:
     explicit PageNavigation(QObject *parent = nullptr);
     static PageNavigation *instance(QQmlEngine *engine, QJSEngine *scriptEngine){
         Q_UNUSED(engine);
-         Q_UNUSED(scriptEngine);
-         return new PageNavigation;
+        Q_UNUSED(scriptEngine);
+        return new PageNavigation;
     }
-private:
-    int m_pageIndex;
+
+public slots:
+    void checkToken();
 
 signals:
+    void tokenLoaded(bool isTokenAvailable);
 
 };
 

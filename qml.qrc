@@ -6,6 +6,7 @@
         <file>NavButton.qml</file>
         <file>EditText.qml</file>
         <file>HomePage.qml</file>
+        <file>Authentication.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>img/items.png</file>

@@ -1,18 +1,24 @@
 #include <QSettings>
+#include <QDebug>
 
 #include "pagenavigation.h"
 #include "programvariable.h"
 
 PageNavigation::PageNavigation(QObject *parent) : QObject(parent)
 {
+
+}
+
+void PageNavigation::checkToken()
+{
     QSettings settting;
     QString token = settting.value("token", "").toString();
     if(token != ""){
         ProgramVariable::refreshToken = token;
-        m_pageIndex = 2;
+        emit tokenLoaded(true);
     }
     else {
-        m_pageIndex = 1;
+        emit tokenLoaded(false);
     }
 }
 
