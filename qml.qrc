@@ -7,6 +7,8 @@
         <file>EditText.qml</file>
         <file>HomePage.qml</file>
         <file>Authentication.qml</file>
+        <file>fonts/RobotoCondensed-Regular.ttf</file>
+        <file>fonts/RobotoCondensed-Bold.ttf</file>
     </qresource>
     <qresource prefix="/img">
         <file>img/items.png</file>
@@ -18,5 +20,6 @@
         <file>img/removeitem.png</file>
         <file>img/additem.png</file>
         <file>img/delete.png</file>
+        <file>img/close.png</file>
     </qresource>
 </RCC>

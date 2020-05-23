@@ -10,13 +10,12 @@ Rectangle {
 
     FontLoader {
         id: robotoCondensed
-        source: "https://github.com/google/fonts/raw/master/ofl/roboto/static/RobotoCondensed-Regular.ttf"
+        source: "fonts/RobotoCondensed-Regular.ttf"
     }
     FontLoader {
         id: robotoCondensedBold
-        source: "https://github.com/google/fonts/raw/master/ofl/roboto/static/RobotoCondensed-Bold.ttf"
+        source: "fonts/RobotoCondensed-Bold.ttf"
     }
-
 
     Invoice {
         id: invoice
@@ -59,6 +58,121 @@ Rectangle {
             }
         }
     }
+
+    Button {
+        id: addExpenseButton
+        text: "New Expense"
+        leftPadding: 40
+        rightPadding: 10
+        anchors.top: itemSearchInput.top
+        anchors.bottom: itemSearchInput.bottom
+        anchors.right: invoiceLayout.left
+        anchors.rightMargin: 50
+        background: Rectangle {
+            color: "#3949AB"
+            radius: 3
+
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                source: "img/img/add.png"
+            }
+        }
+        contentItem: Text {
+            text: parent.text
+            font.pointSize: 11
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            color: "white"
+        }
+        onClicked: {
+            addExpensePopup.open()
+        }
+    }
+
+    Popup {
+        id: addExpensePopup
+        modal: true
+        width: 350
+        x: (parent.width / 2) - (width / 2)
+        y: (parent.height / 2) - (implicitHeight / 2)
+        background: Rectangle {
+            border.width: 0
+            radius: 3
+        }
+        closePolicy: Popup.NoAutoClose
+        contentItem: ColumnLayout {
+
+            Image{
+               source: "/img/img/close.png"
+               Layout.alignment: Qt.AlignRight
+               MouseArea{
+                   anchors.fill: parent
+                   onClicked: addExpensePopup.close();
+               }
+            }
+
+            Text {
+                text: qsTr("New Expense")
+                font.pointSize: 14
+                Layout.alignment: Qt.AlignHCenter
+                Layout.bottomMargin: 20
+            }
+
+            EditText {
+                id: expenseTitle
+                placeholderText: qsTr("Item")
+                Layout.fillWidth: true
+                font.pointSize: 12
+                anchors.topMargin: 40
+                anchors.leftMargin: 20
+                anchors.rightMargin: 20
+                padding: 15
+                Layout.bottomMargin: 20
+            }
+            EditText {
+                id: expenseAmount
+                placeholderText: qsTr("Amount")
+                Layout.fillWidth: true
+                font.pointSize: 12
+                anchors.topMargin: 40
+                anchors.leftMargin: 20
+                anchors.rightMargin: 20
+                padding: 15
+                validator: DoubleValidator {
+                    bottom: 0
+                    top: 10000
+                    decimals: 2
+                }
+                Layout.bottomMargin: 20
+            }
+
+            Button {
+                id: saveExpenseButton
+                text: "Save"
+                topPadding: 12
+                bottomPadding: 12
+                background: Rectangle {
+                    radius: 5
+                    color: "#3949AB"
+                }
+                Layout.fillWidth: true
+                contentItem: Text {
+                    text: parent.text
+                    font.pointSize: 13
+                    font.family: robotoCondensed.name
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    color: "white"
+                }
+                onClicked: {
+
+                }
+            }
+        }
+    }
+
     GridView {
         id: itemGridList
         anchors.top: itemSearchInput.bottom
@@ -112,6 +226,7 @@ Rectangle {
                     font.pointSize: 13
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
+                    font.family: robotoCondensedBold.name
                 }
             }
 
@@ -127,7 +242,6 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
                     font.family: robotoCondensedBold.name
-                    font.bold: true
                 }
             }
         }
@@ -314,7 +428,7 @@ Rectangle {
                 color: "white"
             }
             onClicked: {
-                invoice.createInvoice();
+                invoice.createInvoice()
             }
         }
     }
