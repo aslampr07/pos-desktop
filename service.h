@@ -27,6 +27,8 @@ public:
     void getItem();
     //POST /api/invoice
     void createInvoice(QJsonDocument invoices);
+    //POST /api/expense
+    void createExpense(QString item, float amount);
 
 signals:
     void success(int status, QJsonDocument body);

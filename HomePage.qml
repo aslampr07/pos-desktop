@@ -2,9 +2,11 @@ import QtQuick 2.0
 import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
+import QtGraphicalEffects 1.14
 
 import com.kadbyte.item 1.0
 import com.kadbyte.invoice 1.0
+import com.kadbyte.expense 1.0
 
 Rectangle {
 
@@ -91,6 +93,13 @@ Rectangle {
         }
     }
 
+    Expense{
+        id: expense
+        onExpenseCreated: {
+            addExpensePopup.close()
+        }
+    }
+
     Popup {
         id: addExpensePopup
         modal: true
@@ -101,16 +110,18 @@ Rectangle {
             border.width: 0
             radius: 3
         }
+
+
         closePolicy: Popup.NoAutoClose
         contentItem: ColumnLayout {
 
-            Image{
-               source: "/img/img/close.png"
-               Layout.alignment: Qt.AlignRight
-               MouseArea{
-                   anchors.fill: parent
-                   onClicked: addExpensePopup.close();
-               }
+            Image {
+                source: "/img/img/close.png"
+                Layout.alignment: Qt.AlignRight
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: addExpensePopup.close()
+                }
             }
 
             Text {
@@ -167,7 +178,7 @@ Rectangle {
                     color: "white"
                 }
                 onClicked: {
-
+                    expense.createInvoice(expenseTitle.text, expenseAmount.text)
                 }
             }
         }
