@@ -192,6 +192,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.leftMargin: 50
         anchors.topMargin: 20
+        clip: true
 
         boundsBehavior: Flickable.StopAtBounds
 

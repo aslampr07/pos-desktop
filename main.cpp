@@ -6,6 +6,7 @@
 #include "pagenavigation.h"
 #include "invoice.h"
 #include "expense.h"
+#include "statistics.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Item>("com.kadbyte.item", 1, 0, "Item");
     qmlRegisterType<Invoice>("com.kadbyte.invoice", 1, 0, "Invoice");
     qmlRegisterType<Expense>("com.kadbyte.expense", 1, 0, "Expense");
+    qmlRegisterType<Statistics>("com.kadbyte.statistics", 1, 0, "Statistics");
     qmlRegisterSingletonType<PageNavigation>("com.kadbyte.navigation", 1, 0, "Navigation", &PageNavigation::instance);
 
     InvoiceModel model;

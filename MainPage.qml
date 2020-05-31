@@ -53,7 +53,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.left: navigationBar.right
 
-        currentIndex: 1
+        currentIndex: 0
 
         Rectangle {
             color: "green"
@@ -61,9 +61,7 @@ Rectangle {
 
         HomePage { }
 
-        Rectangle {
-            color: "cyan"
-        }
+        StatPage{}
         Rectangle {
             id: itemsPage
             color: "#F2F8FF"

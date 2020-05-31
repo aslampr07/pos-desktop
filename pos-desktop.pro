@@ -21,7 +21,8 @@ SOURCES += \
         pagenavigation.cpp \
         programvariable.cpp \
         service.cpp \
-        signup.cpp
+        signup.cpp \
+        statistics.cpp
 
 RESOURCES += qml.qrc
 
@@ -43,4 +44,5 @@ HEADERS += \
     pagenavigation.h \
     programvariable.h \
     service.h \
-    signup.h
+    signup.h \
+    statistics.h

@@ -9,6 +9,7 @@
         <file>Authentication.qml</file>
         <file>fonts/RobotoCondensed-Regular.ttf</file>
         <file>fonts/RobotoCondensed-Bold.ttf</file>
+        <file>StatPage.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>img/items.png</file>
@@ -21,5 +22,7 @@
         <file>img/additem.png</file>
         <file>img/delete.png</file>
         <file>img/close.png</file>
+        <file>img/profit.png</file>
+        <file>img/loss.png</file>
     </qresource>
 </RCC>

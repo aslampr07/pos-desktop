@@ -8,6 +8,7 @@
 #include <QUrlQuery>
 #include <QEventLoop>
 #include <QString>
+#include <QUrlQuery>
 
 #include "programvariable.h"
 #include "service.h"
@@ -47,6 +48,19 @@ void Service::createInvoice(QJsonDocument invoices)
     manager->post(request, invoices.toJson());
 }
 
+void Service::listInvoice(QString from, QString to)
+{
+    QUrl url(domain + "/api/invoice");
+    std::initializer_list<QPair<QString, QString>> list = {
+        QPair<QString, QString>("from", from),
+        QPair<QString, QString>("to", to),
+    };
+    url.setQuery(QUrlQuery(list));
+    QNetworkRequest request(url);
+    request.setRawHeader("Authorization", "Bearer " + getBearerToken().toUtf8());
+    manager->get(request);
+}
+
 void Service::createExpense(QString item, float amount)
 {
     QNetworkRequest request(QUrl(domain+"/api/expense"));
@@ -57,6 +71,19 @@ void Service::createExpense(QString item, float amount)
         {"amount", amount}
     };
     manager->post(request, QJsonDocument(body).toJson());
+}
+
+void Service::listExpense(QString from, QString to)
+{
+    QUrl url(domain + "/api/expense");
+    std::initializer_list<QPair<QString, QString>> list = {
+        QPair<QString, QString>("from", from),
+        QPair<QString, QString>("to", to),
+    };
+    url.setQuery(QUrlQuery(list));
+    QNetworkRequest request(url);
+    request.setRawHeader("Authorization", "Bearer " + getBearerToken().toUtf8());
+    manager->get(request);
 }
 
 

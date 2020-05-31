@@ -18,6 +18,7 @@ private:
 public:
     explicit Expense(QObject *parent = nullptr);
 
+
 public slots:
     void createInvoice(QString item, float amount);
 
