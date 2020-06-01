@@ -17,7 +17,7 @@ SOURCES += \
         expense.cpp \
         invoice.cpp \
         item.cpp \
-        main.cpp \
+        src/cpp/main.cpp \
         pagenavigation.cpp \
         programvariable.cpp \
         service.cpp \
