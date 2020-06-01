@@ -192,20 +192,24 @@ void Invoice::removeItemFromInvoice(QString code)
 
 void Invoice::createInvoice()
 {
-    QJsonDocument invoiceJson = m_model->invoiceJson();
-    if(invoiceJson.array().size() > 0){
-        service.createInvoice(invoiceJson);
-        connect(&service, &Service::success, this, [=](int status, QJsonDocument body){
-            disconnect(&service, &Service::success, nullptr, nullptr);
-            qDebug()<<status;
-            if(status == 200){
-                m_model->clear();
-                emit invoiceItemChange(m_model->total());
-            }
-        });
-    }
-    else {
-        qDebug()<<"Empty array";
+    if(!saveButtonLock){
+        saveButtonLock = true;
+        QJsonDocument invoiceJson = m_model->invoiceJson();
+        if(invoiceJson.array().size() > 0){
+            service.createInvoice(invoiceJson);
+            connect(&service, &Service::success, this, [=](int status, QJsonDocument body){
+                disconnect(&service, &Service::success, nullptr, nullptr);
+                qDebug()<<status;
+                if(status == 200){
+                    m_model->clear();
+                    emit invoiceItemChange(m_model->total());
+                    saveButtonLock = false;
+                }
+            });
+        }
+        else {
+            saveButtonLock = false;
+        }
     }
 }
 

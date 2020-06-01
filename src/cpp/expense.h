@@ -13,7 +13,7 @@ class Expense : public QObject
 private:
     Service service;
     void networkError();
-
+    bool buttonLock = false;
 
 public:
     explicit Expense(QObject *parent = nullptr);
