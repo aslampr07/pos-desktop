@@ -14,15 +14,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        expense.cpp \
-        invoice.cpp \
-        item.cpp \
+        src/cpp/expense.cpp \
+        src/cpp/invoice.cpp \
+        src/cpp/item.cpp \
         src/cpp/main.cpp \
-        pagenavigation.cpp \
-        programvariable.cpp \
-        service.cpp \
-        signup.cpp \
-        statistics.cpp
+        src/cpp/pagenavigation.cpp \
+        src/cpp/programvariable.cpp \
+        src/cpp/service.cpp \
+        src/cpp/signup.cpp \
+        src/cpp/statistics.cpp
 
 RESOURCES += qml.qrc
 
@@ -38,11 +38,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    expense.h \
-    invoice.h \
-    item.h \
-    pagenavigation.h \
-    programvariable.h \
-    service.h \
-    signup.h \
-    statistics.h
+    src/cpp/expense.h \
+    src/cpp/invoice.h \
+    src/cpp/item.h \
+    src/cpp/pagenavigation.h \
+    src/cpp/programvariable.h \
+    src/cpp/service.h \
+    src/cpp/signup.h \
+    src/cpp/statistics.h
