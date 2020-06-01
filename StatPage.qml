@@ -82,7 +82,7 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             font.family: robotoCondensed.name
             font.pointSize: 16
-            color: "#E06767"
+            color: "#22A98D"
         }
         Image {
             id: lossImage
@@ -112,7 +112,7 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             font.family: robotoCondensed.name
             font.pointSize: 16
-            color: "#22A98D"
+            color: "#E06767"
         }
         Text{
             id: netAmountLable
