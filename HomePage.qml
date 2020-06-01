@@ -56,7 +56,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                source: "img/img/seach.png"
+                source: "/img/seach.png"
             }
         }
     }
@@ -78,7 +78,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                source: "img/img/add.png"
+                source: "/img/add.png"
             }
         }
         contentItem: Text {
@@ -116,7 +116,7 @@ Rectangle {
         contentItem: ColumnLayout {
 
             Image {
-                source: "/img/img/close.png"
+                source: "/img/close.png"
                 Layout.alignment: Qt.AlignRight
                 MouseArea {
                     anchors.fill: parent
@@ -352,7 +352,7 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
                     Image {
-                        source: quantity == 1 ? "/img/img/delete.png" : "/img/img/removeitem.png"
+                        source: quantity == 1 ? "/img/delete.png" : "/img/removeitem.png"
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
@@ -364,7 +364,7 @@ Rectangle {
                         text: quantity + "x"
                     }
                     Image {
-                        source: "/img/img/additem.png"
+                        source: "/img/additem.png"
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {

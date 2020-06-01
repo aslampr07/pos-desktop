@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>bg.png</file>
         <file>MainPage.qml</file>
         <file>NavButton.qml</file>
         <file>EditText.qml</file>
@@ -10,8 +9,6 @@
         <file>fonts/RobotoCondensed-Regular.ttf</file>
         <file>fonts/RobotoCondensed-Bold.ttf</file>
         <file>StatPage.qml</file>
-    </qresource>
-    <qresource prefix="/img">
         <file>img/items.png</file>
         <file>img/stats.png</file>
         <file>img/home.png</file>
@@ -24,5 +21,6 @@
         <file>img/close.png</file>
         <file>img/profit.png</file>
         <file>img/loss.png</file>
+        <file>img/bg.png</file>
     </qresource>
 </RCC>

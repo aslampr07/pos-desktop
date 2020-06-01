@@ -33,15 +33,15 @@ Rectangle {
             spacing: 0
             NavButton {
                 id: homeButton
-                source: "/img/img/home.png"
+                source: "/img/home.png"
             }
             NavButton {
                 id: statButton
-                source: "/img/img/stats.png"
+                source: "/img/stats.png"
             }
             NavButton {
                 id: itemButton
-                source: "/img/img/items.png"
+                source: "/img/items.png"
             }
         }
     }
@@ -120,7 +120,7 @@ Rectangle {
                                 newItemLayout.close()
                             }
                             background: Image {
-                                source: "/img/img/back.png"
+                                source: "/img/back.png"
                             }
                         }
 
@@ -259,7 +259,7 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        source: "img/img/seach.png"
+                        source: "/img/seach.png"
                     }
                 }
             }
@@ -279,7 +279,7 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        source: "img/img/add.png"
+                        source: "/img/add.png"
                     }
                 }
                 contentItem: Text {

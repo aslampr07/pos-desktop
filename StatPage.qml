@@ -59,7 +59,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.topMargin: 20
-            source: "/img/img/profit.png"
+            source: "/img/profit.png"
         }
         Text {
             id: incomeText
@@ -90,7 +90,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.topMargin: 20
-            source: "/img/img/loss.png"
+            source: "/img/loss.png"
         }
         Text {
             id: expenseText
