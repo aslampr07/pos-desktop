@@ -22,5 +22,6 @@
         <file>img/profit.png</file>
         <file>img/loss.png</file>
         <file>img/bg.png</file>
+        <file>img/ellipse.png</file>
     </qresource>
 </RCC>

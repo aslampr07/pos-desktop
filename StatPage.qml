@@ -15,6 +15,7 @@ Rectangle {
     }
 
     color: "cyan"
+
     Statistics{
         id: stats
         onStatisticsLoaded: {
@@ -48,6 +49,7 @@ Rectangle {
             text: qsTr("Total Earnings")
             color: "#888888"
             anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: 10
             anchors.top: divider.bottom
             font.family: robotoCondensed.name
             font.pointSize: 18
