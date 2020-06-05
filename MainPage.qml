@@ -60,9 +60,9 @@ Rectangle {
             color: "green"
         }
 
-        HomePage { }
+        HomePage {}
 
-        StatPage{}
+        StatPage {}
         Rectangle {
             id: itemsPage
             color: "#F2F8FF"
@@ -89,9 +89,6 @@ Rectangle {
                 }
                 onPriceInputError: {
                     itemPriceInput.error = error
-                }
-                onItemListFetched: {
-                    itemList.model = product
                 }
             }
 
@@ -295,49 +292,8 @@ Rectangle {
                 }
             }
 
-            ListView {
-                id: itemList
-                visible: false
-                width: 1000
-                anchors.topMargin: 60
-                anchors.top: itemSearchInput.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 60
-                clip: true
-                ScrollBar.vertical : ScrollBar{
-
-                }
-                spacing: 10
-                delegate: Rectangle {
-                    width: parent.width
-                    height: 40
-                    RowLayout {
-                        width: parent.width
-
-                        Text {
-                            text: modelData.slNumber
-                        }
-                        Text {
-                            text: modelData.code
-                        }
-                        Text {
-                            text: modelData.itemName
-                            horizontalAlignment: Text.Center
-                            Layout.fillWidth: true
-                        }
-                        Text {
-                            text: modelData.price
-                            horizontalAlignment: Text.AlignRight
-                        }
-                        Text {
-                            text: modelData.createdAt
-                        }
-                    }
-                }
-            }
             TableView {
-                id: tableview
+                id: itemList
                 width: 1000
                 anchors.topMargin: 60
                 anchors.top: itemSearchInput.bottom
@@ -345,60 +301,24 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 60
 
-                model: TableModel {
-                    TableModelColumn { display: "sl" }
-                    TableModelColumn { display: "code" }
-                    TableModelColumn { display: "name" }
-                    TableModelColumn { display: "price" }
-                    TableModelColumn { display: "createdAt" }
-                    TableModelColumn { display: "Ellipse" }
-
-                    rows: [
-                        {
-                            "sl": "Sl. No",
-                            "code": "Code",
-                            "name": "Name",
-                            "price": "Price",
-                            "createdAt": "Created On"
-                        },
-                        {
-                            "code": "HHHHHHHHHHH",
-                            "name": "Al Faham Full",
-                            "price": "₹ 123",
-                            "createdAt": "23-JUN-2020"
-                        },
-                        {
-                            "code": "123h1k2g23",
-                            "name": "Al Faham Full",
-                            "price": "₹ 123",
-                            "createdAt": "23-JUN-2020"
-                        },
-                        {
-                            "code": "123h1k2g23",
-                            "name": "Al Faham Fullkjfkajkajfkdawr",
-                            "price": "₹ 123",
-                            "createdAt": "23-JUN-2020"
-                        },
-                        {
-                            "code": "HHHHHHHHHHH",
-                            "name": "Al Faham Fullsfakflakfakfafkjakfjkajfkjlgkdlklklktoeioioioooioioiokfjakfjkjk",
-                            "price": "₹ 123",
-                            "createdAt": "23-JUN-2020"
-                        }
-                    ]
-                }
-
+                model: item.model
 
                 property var columnWidths: [80, 180, 450, 120, 120]
-                columnWidthProvider: function (column) { return columnWidths[column] }
+                columnWidthProvider: function (column) {
+                    return columnWidths[column]
+                }
+
+                ScrollBar.vertical : ScrollBar{
+                    policy: ScrollBar.AlwaysOn
+                }
 
                 delegate: Rectangle {
 
-                    color: row % 2 == 0? "#FAFAFC": "#FFFFFF"
+                    color: row % 2 == 0 ? "#FAFAFC" : "#FFFFFF"
                     Text {
                         visible: column != 5
-                        text: column == 0 && row != 0? row : display
-                        color: row == 0? "#888888": "#000000"
+                        text: column == 0 && row != 0 ? row : display
+                        color: row == 0 ? "#888888" : "#000000"
                         anchors.centerIn: parent
                     }
 
@@ -406,6 +326,10 @@ Rectangle {
                         visible: column == 5 && row != 0
                         source: "/img/ellipse.png"
                         anchors.verticalCenter: parent.verticalCenter
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: console.log(display)
+                        }
                     }
                 }
             }

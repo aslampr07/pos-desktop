@@ -5,6 +5,7 @@
 #include <QAbstractListModel>
 
 #include "service.h"
+#include "models/itemtablemodel.h"
 
 class Product : public QObject
 {
@@ -27,15 +28,20 @@ private:
     QString m_alias;
     float m_price;
     QString m_createdAt;
+
 };
 
 class Item : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(ItemTableModel* model READ itemModel CONSTANT)
     Service service;
     void networkError();
+    ItemTableModel* m_model;
+    ItemTableModel* itemModel() const;
 public:
     explicit Item(QObject *parent = nullptr);
+    ~Item();
 
 public slots:
     void createItem(QString name, QString alias, float price, bool isSaveNew);

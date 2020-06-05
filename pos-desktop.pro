@@ -18,6 +18,7 @@ SOURCES += \
         src/cpp/invoice.cpp \
         src/cpp/item.cpp \
         src/cpp/main.cpp \
+        src/cpp/models/itemtablemodel.cpp \
         src/cpp/pagenavigation.cpp \
         src/cpp/programvariable.cpp \
         src/cpp/service.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     src/cpp/expense.h \
     src/cpp/invoice.h \
     src/cpp/item.h \
+    src/cpp/models/itemtablemodel.h \
     src/cpp/pagenavigation.h \
     src/cpp/programvariable.h \
     src/cpp/service.h \

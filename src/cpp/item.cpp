@@ -8,7 +8,13 @@
 
 Item::Item(QObject *parent) : QObject(parent)
 {
+    m_model = new ItemTableModel();
     connect(&service, &Service::networkError, this, &Item::networkError);
+}
+
+Item::~Item()
+{
+    delete m_model;
 }
 
 void Item::createItem(QString name, QString alias, float price, bool isSaveNew){
@@ -64,6 +70,8 @@ void Item::loadItemList(){
                 double price = itemArray[i].toObject()["sellingPrice"].toDouble();
                 QString date = itemArray[i].toObject()["createdAt"].toString();
                 productList.append(new Product(i+1, code, name, alias, price, date));
+                ItemPod item(name, code, alias, price, date);
+                m_model->addItem(item);
             }
             emit itemListFetched(productList);
         }
@@ -72,6 +80,11 @@ void Item::loadItemList(){
 
 void Item::networkError(){
     qDebug()<<"Network signal triggered";
+}
+
+ItemTableModel *Item::itemModel() const
+{
+    return m_model;
 }
 
 

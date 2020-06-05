@@ -62,6 +62,7 @@ void InvoiceModel::addInvoiceItem(const QString &code, const QString &name, cons
         m_invoice[index].setQuantity(m_invoice[index].quantity() + 1);
         m_invoice[index].setPrice(m_invoice[index].quantity() * price);
         QModelIndex topLeft = createIndex(index,0);
+        //To notify the item exists, and to update the UI
         emit dataChanged(topLeft, topLeft);
     }
     else {
