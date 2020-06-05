@@ -6,6 +6,12 @@ import Qt.labs.qmlmodels 1.0
 import com.kadbyte.item 1.0
 
 Rectangle {
+
+    FontLoader {
+        id: robotoCondensed
+        source: "fonts/RobotoCondensed-Regular.ttf"
+    }
+
     Rectangle {
         id: navigationBar
         color: "#3949AB"
@@ -53,8 +59,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.left: navigationBar.right
-
-        currentIndex: 3
 
         Rectangle {
             color: "green"
@@ -312,10 +316,13 @@ Rectangle {
                     policy: ScrollBar.AlwaysOn
                 }
 
+
                 delegate: Rectangle {
 
                     color: row % 2 == 0 ? "#FAFAFC" : "#FFFFFF"
                     Text {
+                        font.family: robotoCondensed.name
+                        font.pointSize: 14
                         visible: column != 5
                         text: column == 0 && row != 0 ? row : display
                         color: row == 0 ? "#888888" : "#000000"
@@ -328,11 +335,23 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         MouseArea{
                             anchors.fill: parent
-                            onClicked: console.log(display)
                         }
                     }
                 }
             }
+
+            Menu{
+                id: testMenu
+                width: 120
+                MenuItem{text: "Delete"}
+                MenuItem{text: "Edit"}
+                MenuItem{text: "Update Price"}
+                enter: Transition {
+                    NumberAnimation { property: "height"; from: 0.0; to: testMenu.implicitHeight; duration: 100}
+                }
+
+            }
+
         }
     }
 }

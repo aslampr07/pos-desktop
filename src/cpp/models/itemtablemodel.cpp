@@ -18,6 +18,11 @@ QString ItemPod::code() const
     return m_code;
 }
 
+QString ItemPod::alias() const
+{
+    return m_alias;
+}
+
 float ItemPod::price() const
 {
     return m_price;
@@ -41,7 +46,7 @@ QVariant ItemTableModel::data(const QModelIndex &index, int role) const
             case 0:
                 return QVariant(index.row() + 1);
             case 1:
-                return QVariant(m_items[index.row()].code());
+                return QVariant(m_items[index.row()].alias());
             case 2:
                 return QVariant(m_items[index.row()].name());
             case 3:
