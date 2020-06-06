@@ -7,7 +7,7 @@
 #include<QList>
 
 
-class ItemPod{
+class Item{
 
     QString m_name;
     QString m_code;
@@ -16,7 +16,7 @@ class ItemPod{
     QString m_createdat;
 
 public:
-    ItemPod(const QString &name, const QString &code, const QString &alias, const float &price, const QString createdAt);
+    Item(const QString &name, const QString &code, const QString &alias, const float &price, const QString createdAt);
 
     QString name() const;
     QString code() const;
@@ -30,14 +30,14 @@ class ItemTableModel: public QAbstractTableModel
     Q_OBJECT
 
 private:
-    QList<ItemPod> m_items;
+    QList<Item> m_items;
 
 public:
     ItemTableModel(QObject *parent = 0);
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
-    void addItem(ItemPod &item);
+    void addItem(Item &item);
 
 protected:
     QHash<int, QByteArray> roleNames() const override;

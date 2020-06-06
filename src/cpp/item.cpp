@@ -70,6 +70,11 @@ void Item::loadItemList(){
                 double price = itemArray[i].toObject()["sellingPrice"].toDouble();
                 QString date = itemArray[i].toObject()["createdAt"].toString();
                 productList.append(new Product(i+1, code, name, alias, price, date));
+                //Adding the header
+                if(i == 0){
+                    ItemPod item("Name", "code", "alias", 12, "date");
+                      m_model->addItem(item);
+                }
                 ItemPod item(name, code, alias, price, date);
                 m_model->addItem(item);
             }
