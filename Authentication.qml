@@ -18,7 +18,7 @@ Rectangle{
 
         Image {
             id: leafImage
-            source: "bg.png"
+            source: "/img/bg.png"
         }
 
         ColumnLayout {

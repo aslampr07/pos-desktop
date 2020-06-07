@@ -6,12 +6,21 @@
 
 #include "item.h"
 
-Item::Item(QObject *parent) : QObject(parent)
+ItemComponent::ItemComponent(QObject *parent) : QObject(parent)
 {
-    connect(&service, &Service::networkError, this, &Item::networkError);
+    m_model = new ItemTableModel();
+    m_filter_model = new QSortFilterProxyModel();
+    m_filter_model->setSourceModel(m_model);
+    connect(&service, &Service::networkError, this, &ItemComponent::networkError);
 }
 
-void Item::createItem(QString name, QString alias, float price, bool isSaveNew){
+ItemComponent::~ItemComponent()
+{
+    delete m_model;
+    delete m_filter_model;
+}
+
+void ItemComponent::createItem(QString name, QString alias, float price, bool isSaveNew){
 
         bool isOk = true;
 
@@ -50,7 +59,7 @@ void Item::createItem(QString name, QString alias, float price, bool isSaveNew){
         }
 }
 
-void Item::loadItemList(){
+void ItemComponent::loadItemList(){
     service.getItem();
     connect(&service, &Service::success, this, [=](int status, QJsonDocument body){
         disconnect(&service, &Service::success, nullptr, nullptr);
@@ -64,14 +73,32 @@ void Item::loadItemList(){
                 double price = itemArray[i].toObject()["sellingPrice"].toDouble();
                 QString date = itemArray[i].toObject()["createdAt"].toString();
                 productList.append(new Product(i+1, code, name, alias, price, date));
+                Item item(name, code, alias, price, date);
+                m_model->addItem(item);
             }
             emit itemListFetched(productList);
         }
     });
 }
 
-void Item::networkError(){
+void ItemComponent::filterItems(QString filter)
+{
+    m_filter_model->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive));
+    m_filter_model->setFilterKeyColumn(2);
+}
+
+void ItemComponent::networkError(){
     qDebug()<<"Network signal triggered";
+}
+
+ItemTableModel *ItemComponent::itemModel() const
+{
+    return m_model;
+}
+
+QSortFilterProxyModel *ItemComponent::filterModell() const
+{
+    return m_filter_model;
 }
 
 

@@ -1,10 +1,17 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import Qt.labs.qmlmodels 1.0
 
 import com.kadbyte.item 1.0
 
 Rectangle {
+
+    FontLoader {
+        id: robotoCondensed
+        source: "fonts/RobotoCondensed-Regular.ttf"
+    }
+
     Rectangle {
         id: navigationBar
         color: "#3949AB"
@@ -33,15 +40,15 @@ Rectangle {
             spacing: 0
             NavButton {
                 id: homeButton
-                source: "/img/img/home.png"
+                source: "/img/home.png"
             }
             NavButton {
                 id: statButton
-                source: "/img/img/stats.png"
+                source: "/img/stats.png"
             }
             NavButton {
                 id: itemButton
-                source: "/img/img/items.png"
+                source: "/img/items.png"
             }
         }
     }
@@ -53,15 +60,14 @@ Rectangle {
         anchors.right: parent.right
         anchors.left: navigationBar.right
 
-        currentIndex: 0
-
+        currentIndex: 3
         Rectangle {
             color: "green"
         }
 
-        HomePage { }
+        HomePage {}
 
-        StatPage{}
+        StatPage {}
         Rectangle {
             id: itemsPage
             color: "#F2F8FF"
@@ -88,9 +94,6 @@ Rectangle {
                 }
                 onPriceInputError: {
                     itemPriceInput.error = error
-                }
-                onItemListFetched: {
-                    itemList.model = product
                 }
             }
 
@@ -120,7 +123,7 @@ Rectangle {
                                 newItemLayout.close()
                             }
                             background: Image {
-                                source: "/img/img/back.png"
+                                source: "/img/back.png"
                             }
                         }
 
@@ -259,9 +262,15 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        source: "img/img/seach.png"
+                        source: "/img/seach.png"
                     }
                 }
+                selectByMouse: true
+                onTextEdited:{
+                    item.filterItems(text)
+                }
+
+
             }
             Button {
                 id: addItemButton
@@ -279,7 +288,7 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        source: "img/img/add.png"
+                        source: "/img/add.png"
                     }
                 }
                 contentItem: Text {
@@ -294,7 +303,7 @@ Rectangle {
                 }
             }
 
-            ListView {
+            TableView {
                 id: itemList
                 width: 1000
                 anchors.topMargin: 60
@@ -302,38 +311,54 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 60
-                clip: true
-                ScrollBar.vertical : ScrollBar{
 
+                model: item.filterModel
+
+                property var columnWidths: [80, 180, 450, 120, 120]
+                columnWidthProvider: function (column) {
+                    return columnWidths[column]
                 }
-                spacing: 10
-                delegate: Rectangle {
-                    width: parent.width
-                    height: 40
-                    RowLayout {
-                        width: parent.width
 
-                        Text {
-                            text: modelData.slNumber
-                        }
-                        Text {
-                            text: modelData.code
-                        }
-                        Text {
-                            text: modelData.itemName
-                            horizontalAlignment: Text.Center
-                            Layout.fillWidth: true
-                        }
-                        Text {
-                            text: modelData.price
-                            horizontalAlignment: Text.AlignRight
-                        }
-                        Text {
-                            text: modelData.createdAt
+                ScrollBar.vertical : ScrollBar{
+                    policy: ScrollBar.AlwaysOn
+                }
+
+
+                delegate: Rectangle {
+
+                    color: row % 2 == 0 ? "#FAFAFC" : "#FFFFFF"
+                    Text {
+                        font.family: robotoCondensed.name
+                        font.pointSize: 14
+                        visible: column != 5
+                        text: column == 0? row + 1 : display
+                        //color: row == 0 ? "#888888" : "#000000"
+                        anchors.centerIn: parent
+                    }
+
+                    Image {
+                        visible: column == 5 && row != 0
+                        source: "/img/ellipse.png"
+                        anchors.verticalCenter: parent.verticalCenter
+                        MouseArea{
+                            anchors.fill: parent
                         }
                     }
                 }
             }
+
+            Menu{
+                id: testMenu
+                width: 120
+                MenuItem{text: "Delete"}
+                MenuItem{text: "Edit"}
+                MenuItem{text: "Update Price"}
+                enter: Transition {
+                    NumberAnimation { property: "height"; from: 0.0; to: testMenu.implicitHeight; duration: 100}
+                }
+
+            }
+
         }
     }
 }

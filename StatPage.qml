@@ -15,6 +15,7 @@ Rectangle {
     }
 
     color: "cyan"
+
     Statistics{
         id: stats
         onStatisticsLoaded: {
@@ -48,6 +49,7 @@ Rectangle {
             text: qsTr("Total Earnings")
             color: "#888888"
             anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: 10
             anchors.top: divider.bottom
             font.family: robotoCondensed.name
             font.pointSize: 18
@@ -59,7 +61,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.topMargin: 20
-            source: "/img/img/profit.png"
+            source: "/img/profit.png"
         }
         Text {
             id: incomeText
@@ -82,7 +84,7 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             font.family: robotoCondensed.name
             font.pointSize: 16
-            color: "#E06767"
+            color: "#22A98D"
         }
         Image {
             id: lossImage
@@ -90,7 +92,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.topMargin: 20
-            source: "/img/img/loss.png"
+            source: "/img/loss.png"
         }
         Text {
             id: expenseText
@@ -112,7 +114,7 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             font.family: robotoCondensed.name
             font.pointSize: 16
-            color: "#22A98D"
+            color: "#E06767"
         }
         Text{
             id: netAmountLable

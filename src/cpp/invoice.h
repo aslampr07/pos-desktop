@@ -63,6 +63,7 @@ private:
     InvoiceModel* m_model;
     InvoiceModel* invoiceModel() const;
     Service service;
+    bool saveButtonLock = false;
 public:
     explicit Invoice(QObject *parent = nullptr);
     ~Invoice();

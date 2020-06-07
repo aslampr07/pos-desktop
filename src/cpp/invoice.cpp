@@ -62,6 +62,7 @@ void InvoiceModel::addInvoiceItem(const QString &code, const QString &name, cons
         m_invoice[index].setQuantity(m_invoice[index].quantity() + 1);
         m_invoice[index].setPrice(m_invoice[index].quantity() * price);
         QModelIndex topLeft = createIndex(index,0);
+        //To notify the item exists, and to update the UI
         emit dataChanged(topLeft, topLeft);
     }
     else {
@@ -192,20 +193,24 @@ void Invoice::removeItemFromInvoice(QString code)
 
 void Invoice::createInvoice()
 {
-    QJsonDocument invoiceJson = m_model->invoiceJson();
-    if(invoiceJson.array().size() > 0){
-        service.createInvoice(invoiceJson);
-        connect(&service, &Service::success, this, [=](int status, QJsonDocument body){
-            disconnect(&service, &Service::success, nullptr, nullptr);
-            qDebug()<<status;
-            if(status == 200){
-                m_model->clear();
-                emit invoiceItemChange(m_model->total());
-            }
-        });
-    }
-    else {
-        qDebug()<<"Empty array";
+    if(!saveButtonLock){
+        saveButtonLock = true;
+        QJsonDocument invoiceJson = m_model->invoiceJson();
+        if(invoiceJson.array().size() > 0){
+            service.createInvoice(invoiceJson);
+            connect(&service, &Service::success, this, [=](int status, QJsonDocument body){
+                disconnect(&service, &Service::success, nullptr, nullptr);
+                qDebug()<<status;
+                if(status == 200){
+                    m_model->clear();
+                    emit invoiceItemChange(m_model->total());
+                    saveButtonLock = false;
+                }
+            });
+        }
+        else {
+            saveButtonLock = false;
+        }
     }
 }
 
