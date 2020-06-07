@@ -2,33 +2,33 @@
 
 #include <QDebug>
 
-ItemPod::ItemPod(const QString &name, const QString &code, const QString &alias, const float &price, const QString createdAt):
+Item::Item(const QString &name, const QString &code, const QString &alias, const float &price, const QString createdAt):
     m_name(name), m_code(code), m_alias(alias), m_price(price), m_createdat(createdAt)
 {
 
 }
 
-QString ItemPod::name() const
+QString Item::name() const
 {
     return m_name;
 }
 
-QString ItemPod::code() const
+QString Item::code() const
 {
     return m_code;
 }
 
-QString ItemPod::alias() const
+QString Item::alias() const
 {
     return m_alias;
 }
 
-float ItemPod::price() const
+float Item::price() const
 {
     return m_price;
 }
 
-QDateTime ItemPod::createdAt() const
+QDateTime Item::createdAt() const
 {
     return QDateTime::fromString(m_createdat,Qt::DateFormat::ISODateWithMs);
 }
@@ -76,7 +76,7 @@ int ItemTableModel::columnCount(const QModelIndex &parent) const
     return 6;
 }
 
-void ItemTableModel::addItem(ItemPod &item)
+void ItemTableModel::addItem(Item &item)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_items << item;

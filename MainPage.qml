@@ -60,6 +60,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.left: navigationBar.right
 
+        currentIndex: 3
         Rectangle {
             color: "green"
         }
@@ -264,6 +265,12 @@ Rectangle {
                         source: "/img/seach.png"
                     }
                 }
+                selectByMouse: true
+                onTextEdited:{
+                    item.filterItems(text)
+                }
+
+
             }
             Button {
                 id: addItemButton
@@ -305,7 +312,7 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 60
 
-                model: item.model
+                model: item.filterModel
 
                 property var columnWidths: [80, 180, 450, 120, 120]
                 columnWidthProvider: function (column) {
@@ -324,8 +331,8 @@ Rectangle {
                         font.family: robotoCondensed.name
                         font.pointSize: 14
                         visible: column != 5
-                        text: column == 0 && row != 0 ? row : display
-                        color: row == 0 ? "#888888" : "#000000"
+                        text: column == 0? row + 1 : display
+                        //color: row == 0 ? "#888888" : "#000000"
                         anchors.centerIn: parent
                     }
 

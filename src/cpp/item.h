@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractListModel>
+#include <QSortFilterProxyModel>
 
 #include "service.h"
 #include "models/itemtablemodel.h"
@@ -31,21 +32,26 @@ private:
 
 };
 
-class Item : public QObject
+class ItemComponent : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(ItemTableModel* model READ itemModel CONSTANT)
+    Q_PROPERTY(QSortFilterProxyModel* filterModel READ filterModell CONSTANT)
     Service service;
     void networkError();
     ItemTableModel* m_model;
     ItemTableModel* itemModel() const;
+    QSortFilterProxyModel* m_filter_model;
+    QSortFilterProxyModel* filterModell() const;
+
 public:
-    explicit Item(QObject *parent = nullptr);
-    ~Item();
+    explicit ItemComponent(QObject *parent = nullptr);
+    ~ItemComponent();
 
 public slots:
     void createItem(QString name, QString alias, float price, bool isSaveNew);
     void loadItemList();
+    void filterItems(QString filter);
 
 signals:
     void itemInsertSuccess(bool isSaveNew);

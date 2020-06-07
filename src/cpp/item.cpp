@@ -6,18 +6,21 @@
 
 #include "item.h"
 
-Item::Item(QObject *parent) : QObject(parent)
+ItemComponent::ItemComponent(QObject *parent) : QObject(parent)
 {
     m_model = new ItemTableModel();
-    connect(&service, &Service::networkError, this, &Item::networkError);
+    m_filter_model = new QSortFilterProxyModel();
+    m_filter_model->setSourceModel(m_model);
+    connect(&service, &Service::networkError, this, &ItemComponent::networkError);
 }
 
-Item::~Item()
+ItemComponent::~ItemComponent()
 {
     delete m_model;
+    delete m_filter_model;
 }
 
-void Item::createItem(QString name, QString alias, float price, bool isSaveNew){
+void ItemComponent::createItem(QString name, QString alias, float price, bool isSaveNew){
 
         bool isOk = true;
 
@@ -56,7 +59,7 @@ void Item::createItem(QString name, QString alias, float price, bool isSaveNew){
         }
 }
 
-void Item::loadItemList(){
+void ItemComponent::loadItemList(){
     service.getItem();
     connect(&service, &Service::success, this, [=](int status, QJsonDocument body){
         disconnect(&service, &Service::success, nullptr, nullptr);
@@ -70,12 +73,7 @@ void Item::loadItemList(){
                 double price = itemArray[i].toObject()["sellingPrice"].toDouble();
                 QString date = itemArray[i].toObject()["createdAt"].toString();
                 productList.append(new Product(i+1, code, name, alias, price, date));
-                //Adding the header
-                if(i == 0){
-                    ItemPod item("Name", "code", "alias", 12, "date");
-                      m_model->addItem(item);
-                }
-                ItemPod item(name, code, alias, price, date);
+                Item item(name, code, alias, price, date);
                 m_model->addItem(item);
             }
             emit itemListFetched(productList);
@@ -83,13 +81,24 @@ void Item::loadItemList(){
     });
 }
 
-void Item::networkError(){
+void ItemComponent::filterItems(QString filter)
+{
+    m_filter_model->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive));
+    m_filter_model->setFilterKeyColumn(2);
+}
+
+void ItemComponent::networkError(){
     qDebug()<<"Network signal triggered";
 }
 
-ItemTableModel *Item::itemModel() const
+ItemTableModel *ItemComponent::itemModel() const
 {
     return m_model;
+}
+
+QSortFilterProxyModel *ItemComponent::filterModell() const
+{
+    return m_filter_model;
 }
 
 
