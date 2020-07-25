@@ -69,7 +69,7 @@ void ItemComponent::loadItemList(){
             for(int i = 0; i < itemArray.size(); i++){
                 QString name = itemArray[i].toObject()["name"].toString();
                 QString alias = itemArray[i].toObject()["alias"].toString();
-                QString code = itemArray[i].toObject()["itemCode"].toString();
+                QString code = itemArray[i].toObject()["code"].toString();
                 double price = itemArray[i].toObject()["sellingPrice"].toDouble();
                 QString date = itemArray[i].toObject()["createdAt"].toString();
                 productList.append(new Product(i+1, code, name, alias, price, date));

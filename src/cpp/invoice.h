@@ -3,65 +3,22 @@
 
 #include <QObject>
 #include <QString>
-#include <QAbstractListModel>
-#include <QHash>
-#include <QJsonDocument>
 
 #include "service.h"
+#include "models/invoicetabmodel.h"
+#include "models/invoicemodel.h"
 
-class InvoiceItem{
-public:
-    InvoiceItem(const QString& code, const QString& name, const float& price, const int quantity);
-
-    QString code() const;
-    QString name() const;
-    float price() const;
-    int quantity() const;
-
-    void setPrice(float price);
-    void setQuantity(int quantity);
-
-private:
-    QString m_code;
-    QString m_name;
-    float m_price;
-    int m_quantity;
-};
-
-class InvoiceModel: public QAbstractListModel{
-    Q_OBJECT
-
-private:
-    QList<InvoiceItem> m_invoice;
-
-protected:
-    QHash<int, QByteArray> roleNames() const;
-
-public:
-    enum InvoiceRole{
-        CodeRole = Qt::UserRole + 1,
-        NameRole,
-        PriceRole,
-        QuantityRole
-    };
-
-    InvoiceModel(QObject *parent = 0);
-    void addInvoiceItem(const QString &code, const QString &name, const float &price);
-    void removeInvoiceItem(const QString &code);
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    float total();
-    QJsonDocument invoiceJson();
-    void clear();
-};
 
 class Invoice : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(InvoiceModel* model READ invoiceModel CONSTANT)
+    Q_PROPERTY(InvoiceTabModel* tabmodel READ invoiceTabModel CONSTANT)
 private:
     InvoiceModel* m_model;
     InvoiceModel* invoiceModel() const;
+    InvoiceTabModel* m_tabmodel;
+    InvoiceTabModel *invoiceTabModel() const;
     Service service;
     bool saveButtonLock = false;
 public:
@@ -72,9 +29,12 @@ public slots:
     void addItemToInvoice(QString code, QString name, float price);
     void removeItemFromInvoice(QString code);
     void createInvoice();
+    void tabItemClicked(int index);
+
 
 signals:
     void invoiceItemChange(float total);
+    void invoiceTabChanged(QList<bool> list);
 };
 
 #endif // INVOICE_H

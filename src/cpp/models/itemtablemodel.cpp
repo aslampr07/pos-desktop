@@ -83,8 +83,3 @@ void ItemTableModel::addItem(Item &item)
     endInsertRows();
 }
 
-QHash<int, QByteArray> ItemTableModel::roleNames() const
-{
-    return { {Qt::DisplayRole, "display"} };
-}
-

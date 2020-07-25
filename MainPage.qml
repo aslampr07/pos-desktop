@@ -60,7 +60,6 @@ Rectangle {
         anchors.right: parent.right
         anchors.left: navigationBar.right
 
-        currentIndex: 3
         Rectangle {
             color: "green"
         }

@@ -26,7 +26,7 @@ void Service::addItem(QString name, QString alias, float price, QString color){
     QJsonObject body {
         {"name", name},
         {"alias", alias},
-        {"price", price},
+        {"sellingPrice", price},
         {"color", color},
         {"images", QJsonArray()}
     };

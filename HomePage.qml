@@ -24,6 +24,9 @@ Rectangle {
         onInvoiceItemChange: {
             totalAmountText.text = "₹" + total
         }
+        onInvoiceTabChanged: {
+            invoiceTab.model = list
+        }
     }
 
     Item {
@@ -425,7 +428,7 @@ Rectangle {
             text: "CONFIRM"
             topPadding: 12
             bottomPadding: 12
-            anchors.bottom: parent.bottom
+            anchors.bottom: tabSection.top
             anchors.right: parent.right
             anchors.left: parent.left
             background: Rectangle {
@@ -443,5 +446,34 @@ Rectangle {
                 invoice.createInvoice()
             }
         }
+        Row{
+            id: tabSection
+            anchors.right: parent.right
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            height: 50
+            Repeater{
+                id: invoiceTab
+                anchors.fill: parent
+                model: invoice.tabmodel
+                Button{
+                    width: 50
+                    height: parent.height
+                    text: index + 1
+                    onClicked: invoice.tabItemClicked(index)
+                    background:   Rectangle{
+                        color: model.display ? "#B4B4B4": "white"
+                    }
+                }
+            }
+        }
     }
 }
+
+
+
+
+
+
+
+
