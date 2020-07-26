@@ -31,6 +31,9 @@ public slots:
     void createInvoice();
     void tabItemClicked(int index);
 
+private slots:
+    void tabChanged(int index);
+
 
 signals:
     void invoiceItemChange(float total);

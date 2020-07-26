@@ -276,6 +276,7 @@ Rectangle {
         anchors.right: parent.right
 
         ListView {
+            id: invoiceList
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
@@ -334,7 +335,7 @@ Rectangle {
             }
 
             delegate: Rectangle {
-                width: parent.width
+                width: invoiceList.width
                 height: 60
                 Text {
                     anchors.left: parent.left

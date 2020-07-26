@@ -11,6 +11,8 @@ Invoice::Invoice(QObject *parent) : QObject(parent)
     m_tabmodel = new InvoiceTabModel();
     //Connect the tab with invoice, to notifiy that tab is switched
     connect(m_tabmodel, &InvoiceTabModel::tabChanged, m_model, &InvoiceModel::tabChanges);
+    //Connect another slot on tabchanged to change the total
+    connect(m_tabmodel, &InvoiceTabModel::tabChanged, this, &Invoice::tabChanged);
 }
 
 Invoice::~Invoice()
@@ -57,6 +59,11 @@ void Invoice::createInvoice()
 void Invoice::tabItemClicked(int index)
 {
     m_tabmodel->changeTab(index);
+}
+
+void Invoice::tabChanged(int index)
+{
+    emit invoiceItemChange(m_model->total());
 }
 
 InvoiceModel *Invoice::invoiceModel() const

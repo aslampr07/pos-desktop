@@ -43,28 +43,27 @@ InvoiceModel::InvoiceModel(QObject *parent): QAbstractListModel(parent)
     for(int i = 0; i < 8; i++){
         m_tabbedinvoice << QVector<InvoiceItem>();
     }
-    qDebug()<<m_tabbedinvoice.size();
 }
 
 void InvoiceModel::addInvoiceItem(const QString &code, const QString &name, const float &price)
 {
     int index = -1;
-    for(int i = 0; i < m_invoice.size(); i++){
-        InvoiceItem &item = m_invoice[i];
+    for(int i = 0; i < m_tabbedinvoice[currentPage].size(); i++){
+        InvoiceItem &item = m_tabbedinvoice[currentPage][i];
         if(item.code() == code){
             index = i;
         }
     }
     if(index != -1){
-        m_invoice[index].setQuantity(m_invoice[index].quantity() + 1);
-        m_invoice[index].setPrice(m_invoice[index].quantity() * price);
+        m_tabbedinvoice[currentPage][index].setQuantity(m_tabbedinvoice[currentPage][index].quantity() + 1);
+        m_tabbedinvoice[currentPage][index].setPrice(m_tabbedinvoice[currentPage][index].quantity() * price);
         QModelIndex topLeft = createIndex(index,0);
         //To notify the item exists, and to update the UI
         emit dataChanged(topLeft, topLeft);
     }
     else {
         beginInsertRows(QModelIndex(), rowCount(), rowCount());
-        m_invoice << InvoiceItem(code, name, price, 1);
+        m_tabbedinvoice[currentPage] << InvoiceItem(code, name, price, 1);
         endInsertRows();
     }
 }
@@ -72,25 +71,25 @@ void InvoiceModel::addInvoiceItem(const QString &code, const QString &name, cons
 void InvoiceModel::removeInvoiceItem(const QString &code)
 {
     int index = -1;
-    for(int i = 0; i < m_invoice.size(); i++){
-        InvoiceItem &item = m_invoice[i];
+    for(int i = 0; i < m_tabbedinvoice[currentPage].size(); i++){
+        InvoiceItem &item = m_tabbedinvoice[currentPage][i];
         if(item.code() == code){
             index = i;
         }
     }
     if(index != -1){
-        int quantity = m_invoice[index].quantity();
-        int price = m_invoice[index].price() / m_invoice[index].quantity();
+        int quantity = m_tabbedinvoice[currentPage][index].quantity();
+        int price = m_tabbedinvoice[currentPage][index].price() / m_tabbedinvoice[currentPage][index].quantity();
 
-        if(m_invoice[index].quantity() > 1){
-             m_invoice[index].setQuantity(quantity - 1);
-             m_invoice[index].setPrice(price * (quantity - 1));
+        if(m_tabbedinvoice[currentPage][index].quantity() > 1){
+             m_tabbedinvoice[currentPage][index].setQuantity(quantity - 1);
+             m_tabbedinvoice[currentPage][index].setPrice(price * (quantity - 1));
              QModelIndex topLeft = createIndex(index,0);
              emit dataChanged(topLeft, topLeft);
         }
         else {
             beginRemoveRows(QModelIndex(), index, index);
-            m_invoice.removeAt(index);
+            m_tabbedinvoice[currentPage].removeAt(index);
             endRemoveRows();
         }
     }
@@ -99,15 +98,15 @@ void InvoiceModel::removeInvoiceItem(const QString &code)
 int InvoiceModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_invoice.size();
+    return m_tabbedinvoice[currentPage].size();
 }
 
 QVariant InvoiceModel::data(const QModelIndex &index, int role) const
 {
-    if(index.row() < 0 || index.row() >= m_invoice.count())
+    if(index.row() < 0 || index.row() >= m_tabbedinvoice[currentPage].count())
         return QVariant();
 
-    const InvoiceItem &invoice = m_invoice[index.row()];
+    const InvoiceItem &invoice = m_tabbedinvoice[currentPage][index.row()];
     if(role == CodeRole){
         return invoice.code();
     }
@@ -127,8 +126,8 @@ QVariant InvoiceModel::data(const QModelIndex &index, int role) const
 float InvoiceModel::total()
 {
     float total = 0;
-    for(int i = 0; i < m_invoice.size(); i++){
-        total = total + m_invoice[i].price();
+    for(int i = 0; i < m_tabbedinvoice[currentPage].size(); i++){
+        total = total + m_tabbedinvoice[currentPage][i].price();
     }
     return total;
 }
@@ -136,11 +135,11 @@ float InvoiceModel::total()
 QJsonDocument InvoiceModel::invoiceJson()
 {
     QJsonArray invoiceListArray;
-    for(int i = 0; i < m_invoice.size(); i++){
+    for(int i = 0; i < m_tabbedinvoice[currentPage].size(); i++){
         QJsonObject item
         {
-            {"code", m_invoice[i].code()},
-            {"quantity", m_invoice[i].quantity()}
+            {"code", m_tabbedinvoice[currentPage][i].code()},
+            {"quantity", m_tabbedinvoice[currentPage][i].quantity()}
         };
         invoiceListArray.insert(invoiceListArray.size(), item);
     }
@@ -150,7 +149,7 @@ QJsonDocument InvoiceModel::invoiceJson()
 void InvoiceModel::clear()
 {
     beginResetModel();
-    m_invoice.clear();
+    m_tabbedinvoice[currentPage].clear();
     endResetModel();
 }
 

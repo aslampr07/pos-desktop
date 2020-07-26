@@ -31,7 +31,7 @@ class InvoiceModel: public QAbstractListModel{
     Q_OBJECT
 
 private:
-    QVector<InvoiceItem> m_invoice;
+    //QVector<InvoiceItem> m_invoice;
     QVector<QVector<InvoiceItem>> m_tabbedinvoice;
     int currentPage = 0;
 
