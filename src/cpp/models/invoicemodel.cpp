@@ -40,7 +40,10 @@ void InvoiceItem::setQuantity(int quantity)
 
 InvoiceModel::InvoiceModel(QObject *parent): QAbstractListModel(parent)
 {
-
+    for(int i = 0; i < 8; i++){
+        m_tabbedinvoice << QVector<InvoiceItem>();
+    }
+    qDebug()<<m_tabbedinvoice.size();
 }
 
 void InvoiceModel::addInvoiceItem(const QString &code, const QString &name, const float &price)
@@ -153,8 +156,9 @@ void InvoiceModel::clear()
 
 void InvoiceModel::tabChanges(int index)
 {
-    qDebug()<<"Connected succesfully";
-    qDebug()<<index;
+    beginResetModel();
+    currentPage = index;
+    endResetModel();
 }
 
 

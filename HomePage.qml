@@ -24,9 +24,6 @@ Rectangle {
         onInvoiceItemChange: {
             totalAmountText.text = "₹" + total
         }
-        onInvoiceTabChanged: {
-            invoiceTab.model = list
-        }
     }
 
     Item {

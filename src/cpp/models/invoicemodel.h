@@ -6,6 +6,7 @@
 #include<QJsonDocument>
 #include<QJsonArray>
 #include<QJsonObject>
+#include<QDebug>
 
 class InvoiceItem{
 public:
@@ -31,6 +32,7 @@ class InvoiceModel: public QAbstractListModel{
 
 private:
     QVector<InvoiceItem> m_invoice;
+    QVector<QVector<InvoiceItem>> m_tabbedinvoice;
     int currentPage = 0;
 
 protected:
